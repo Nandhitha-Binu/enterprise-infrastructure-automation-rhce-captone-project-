@@ -1,0 +1,33 @@
+---
+- name: Install NFS utilities
+  dnf:
+    name: nfs-utils
+    state: present
+
+- name: Create shared directory
+  file:
+    path: /shareddata
+    state: directory
+    mode: '0777'
+
+- name: Configure exports
+  copy:
+    dest: /etc/exports
+    content: |
+      /shareddata *(rw,sync,no_root_squash)
+
+- name: Start NFS service
+  service:
+    name: nfs-server
+    state: started
+    enabled: yes
+
+- name: Export NFS shares
+  command: exportfs -rav
+
+- name: Allow NFS firewall service
+  firewalld:
+    service: nfs
+    permanent: yes
+    state: enabled
+    immediate: yes

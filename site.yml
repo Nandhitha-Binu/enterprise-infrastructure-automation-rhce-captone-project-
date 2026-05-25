@@ -1,0 +1,23 @@
+---
+- hosts: webservers
+  become: yes
+  roles:
+    - apache
+    - security
+    - monitoring
+
+- hosts: loadbalancer
+  become: yes
+  roles:
+    - haproxy
+
+- hosts: db
+  become: yes
+  roles:
+    - mariadb
+
+- hosts: fileserver
+  become: yes
+  roles:
+    - nfs
+    - backup

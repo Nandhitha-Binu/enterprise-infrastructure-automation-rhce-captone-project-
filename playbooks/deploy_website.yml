@@ -1,0 +1,14 @@
+---
+- name: Deploy sample website
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Create index page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <h1>RHCE Project Website</h1>
+          <h2>Deployed using Ansible</h2>
+          </html>

@@ -1,0 +1,30 @@
+---
+- name: Install Apache
+  dnf:
+    name: httpd
+    state: present
+
+- name: Start Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Allow HTTP
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Install NFS utilities
+  dnf:
+    name: nfs-utils
+    state: present
+
+- name: Mount NFS share
+  mount:
+    path: /var/www/html
+    src: 10.0.1.152:/shareddata
+    fstype: nfs
+    state: mounted

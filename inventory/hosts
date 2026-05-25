@@ -1,0 +1,15 @@
+[webservers]
+web1 ansible_host=10.0.1.25
+web2 ansible_host=10.0.1.163
+
+[db]
+db-server ansible_host=10.0.1.202
+
+[fileserver]
+file-server ansible_host=10.0.1.152
+
+[loadbalancer]
+lb-server ansible_host=10.0.1.105
+
+[all:vars]
+ansible_user=ec2-user

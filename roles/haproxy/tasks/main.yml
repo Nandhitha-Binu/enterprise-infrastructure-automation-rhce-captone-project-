@@ -1,0 +1,23 @@
+---
+- name: Install HAProxy
+  dnf:
+    name: haproxy
+    state: present
+
+- name: Configure HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: Start HAProxy
+  service:
+    name: haproxy
+    state: started
+    enabled: yes
+
+- name: Allow HTTP
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes

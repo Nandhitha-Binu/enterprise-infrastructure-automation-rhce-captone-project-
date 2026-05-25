@@ -1,0 +1,18 @@
+global
+    daemon
+
+defaults
+    mode http
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+
+frontend http_front
+    bind *:{{ lb_port }}
+    default_backend web_backend
+
+backend web_backend
+    balance {{ lb_algorithm }}
+{% for host in groups['webservers'] %}
+    server {{ host }} {{ hostvars[host]['ansible_host'] }}:{{ http_port }} check
+{% endfor %}

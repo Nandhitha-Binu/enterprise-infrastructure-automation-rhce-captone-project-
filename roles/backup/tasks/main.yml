@@ -1,0 +1,16 @@
+---
+- name: Create backup directory
+  file:
+    path: /backup
+    state: directory
+    mode: '0755'
+
+- name: Backup website data
+  command: tar -czvf /backup/website-backup.tar.gz /shareddata
+
+- name: Schedule backup cron job
+  cron:
+    name: "Daily Website Backup"
+    minute: "0"
+    hour: "1"
+    job: "tar -czvf /backup/website-backup.tar.gz /shareddata"

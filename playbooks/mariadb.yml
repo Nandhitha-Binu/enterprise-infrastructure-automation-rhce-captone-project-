@@ -1,0 +1,16 @@
+---
+- name: Configure MariaDB
+  hosts: db
+  become: yes
+
+  tasks:
+    - name: Install MariaDB
+      dnf:
+        name: mariadb-server
+        state: present
+
+    - name: Start MariaDB
+      service:
+        name: mariadb
+        state: started
+        enabled: yes

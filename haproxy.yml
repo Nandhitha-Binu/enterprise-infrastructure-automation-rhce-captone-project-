@@ -1,0 +1,46 @@
+---
+- name: Configure HAProxy
+  hosts: loadbalancer
+  become: yes
+
+  tasks:
+
+    - name: Install HAProxy
+      dnf:
+        name: haproxy
+        state: present
+
+    - name: Configure HAProxy
+      copy:
+        dest: /etc/haproxy/haproxy.cfg
+        content: |
+          global
+              daemon
+
+          defaults
+              mode http
+              timeout connect 5s
+              timeout client 50s
+              timeout server 50s
+
+          frontend http_front
+              bind *:80
+              default_backend web_backend
+
+          backend web_backend
+              balance roundrobin
+              server web1 10.0.1.25:80 check
+              server web2 10.0.1.163:80 check
+
+    - name: Start HAProxy
+      service:
+        name: haproxy
+        state: started
+        enabled: yes
+
+    - name: Allow HTTP service
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes

@@ -1,0 +1,15 @@
+---
+- name: Configure HTTPS
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install mod_ssl
+      dnf:
+        name: mod_ssl
+        state: present
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
