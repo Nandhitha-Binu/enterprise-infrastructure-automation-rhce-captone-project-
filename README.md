@@ -137,5 +137,3 @@ Grafana provides dashboards for:
 ## Author
 
 Nandhitha Binu
-
-B.Tech Computer Science & Engineering
